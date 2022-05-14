@@ -25,12 +25,15 @@ for title in titles[count:]:
     if title not in titles_set:
         continue
 
+    if title == "Ustava Socialistične federativne republike Jugoslavije (1974)/Uvodni del":
+        continue
+
     while True:
         try:
             page = wiki.page(title)
             links = set(page.links.keys())
             break
-        except:
+        except Exception as e:
             print("Banned!")
             time.sleep(60)
 
