@@ -13,15 +13,9 @@ with open(os.path.join(PWD, "data", "title_to_id_map.json"), "r") as f:
 with open(os.path.join(PWD, "data", "id_to_title_map.json"), "r") as f:
     id_to_title_map = json.loads(f.read())
 
-with open(os.path.join(PWD, "data", "similarity_map.json"), "r") as f:
-    similarity_map = json.loads(f.read())
-
 # Flatten
-possible_rederect_titles = []
-for i, values in similarity_map.items():
-    group = list(values)
-    group.append(i)
-    possible_rederect_titles.extend(group)
+possible_rederect_titles = list(title_to_id_map.keys())
+title_to_id_set = set(title_to_id_map.keys())
 
 # Redirects
 params = {
@@ -47,7 +41,8 @@ for idx in range(0, len(possible_rederect_titles), 50):
             if "redirects" in content["query"]:
                 redirects = content["query"]["redirects"]
                 for redirect in redirects:
-                    redirect_map[title_to_id_map[redirect["from"]]] = title_to_id_map[redirect["to"]]
+                    if redirect["to"] in title_to_id_set:
+                        redirect_map[title_to_id_map[redirect["from"]]] = title_to_id_map[redirect["to"]]
             break
         except Exception as e:
             print(e)
