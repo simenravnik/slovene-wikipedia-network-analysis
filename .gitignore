@@ -2,3 +2,4 @@
 data/wikilinks*
 data/old
 data/count.txt
+__pycache__
